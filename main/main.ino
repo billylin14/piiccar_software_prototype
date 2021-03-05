@@ -1,10 +1,3 @@
-#include "motors.h"
-
-/*globals*/
-int motorSpeeds[4];
-int motorDir[4];
-
-
 void setup() {
   /*motor initialization*/
   motors_init();
@@ -25,7 +18,6 @@ void loop() {
   double x_val = 0; //joystick x position
   double y_val = 0; //joystick y position
   //map x_val, y_val to pwm output
-  getSpeeds();
-  //send commands to pins
-  
+  writeSpeeds(x_val, y_val);
+  delay(2);
 }
