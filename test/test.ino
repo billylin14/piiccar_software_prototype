@@ -41,9 +41,10 @@ void loop() {
   double diff = motorSpeed_next - motorSpeed;
   if (decrement_flag && motorSpeed >= 1) {
     Serial.println("decrement!");
-    motorSpeed -= 1;
-    if (motorSpeed == 0){
+    motorSpeed -= 10;
+    if (motorSpeed <= 0){
       decrement_flag = false;
+      
       digitalWrite(motor1_in1, motorDir);
       digitalWrite(motor1_in2, !motorDir);
       digitalWrite(13, motorDir);

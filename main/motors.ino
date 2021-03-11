@@ -2,28 +2,31 @@
  * Notice:
  * motor 1 and 3, 2 and 4 share the same signals
  */  
-#define motor13_enA  3  //           {}{1}{}
-#define motor13_in1  2  //           __||__
-#define motor13_in2  4  //      {}  [      ]  {}   
-#define motor24_enA  5  //     {4}--[      ]--{2}
-#define motor24_in1  6  //      {}  [__  __]  {}
-#define motor24_in2  7  //             ||
-                        //           {}{3}{}
+#define motor13_enA  9  //           {}{1}{}
+#define motor13_in1  8  //           __||__
+#define motor13_in2  7  //      {}  [      ]   {}   
+#define motor24_enA  11  //    {4}--[      ]--{2}
+#define motor24_in1  12  //     {}  [__  __]   {}
+#define motor24_in2  13  //            ||
+                         //          {}{3}{}
 
 /*macros*/
 #define MAX_PWM 204 //(rated_volt=12V / max_volt=15V)*(max_analog_val=255) = 12/15*255 = 204
-
 
 /*constants*/
 const int XY_MIN = 0;
 const int XY_MAX = 1023;
 const int XY_CEN = 512;
+const int INCR = 5;
 
 /*globals*/
-int motorSpeed_X;
-int motorSpeed_Y;
-int motorDir_X;
-int motorDir_Y;
+int x_speed = 0;
+int y_speed = 0; 
+int x_direction = 1;
+int y_direction = 1;
+
+int last_x_dir = 1;
+int last_y_dir = 1;
 
 void motors_init()
 {
@@ -34,56 +37,69 @@ void motors_init()
   pinMode(motor24_enA, OUTPUT);
   pinMode(motor24_in1, OUTPUT);
   pinMode(motor24_in2, OUTPUT);
-  motorSpeed_X = 0;
-  motorSpeed_Y = 0;
-  motorDir_X = 0;
-  motorDir_Y = 0;
 }
 
-void writeSpeeds(int x_val, int y_val)
+void writeSpeeds(int x_val, int y_val, bool debug)
 {
   //determines the displacement of the joystick, filter out values <= 100
-  double x_displacement = abs(x_val-XY_CEN) <= 100 ? 0 : x_val-XY_CEN;
-  double y_displacement = abs(y_val-XY_CEN) <= 100 ? 0 : y_val-XY_CEN;
+  double x_displacement = abs(x_val-XY_CEN) <= 100 ? 0 : x_val-XY_CEN; //positive if go right; negative if go left
+  double y_displacement = abs(y_val-XY_CEN) <= 100 ? 0 : y_val-XY_CEN; //positive if foward; negative if backward
   
   //maps absolute-valued displacement to pwm
-  int motorSpeed_X_next = map(abs(x_displacement), XY_MIN, (XY_MAX-XY_CEN), 0, MAX_PWM);
-  int motorSpeed_Y_next = map(abs(y_displacement), XY_MIN, (XY_MAX-XY_CEN), 0, MAX_PWM);
-  float diff_X = motorSpeed_X_next - motorSpeed_X;
-  float diff_Y = motorSpeed_Y_next - motorSpeed_Y;
+  int x_speed_next = map(abs(x_displacement), XY_MIN, (XY_MAX-XY_CEN), 0, MAX_PWM);
+  int y_speed_next = map(abs(y_displacement), XY_MIN, (XY_MAX-XY_CEN), 0, MAX_PWM);
   
-  //ramp function
-  if (motorSpeed_X != motorSpeed_X_next) {
-    motorSpeed_X += diff_X > 0 ? 1 : -1;
-    analogWrite(motor13_enA, motorSpeed_X);
-  }
-  if (motorSpeed_Y != motorSpeed_Y_next) {
-    motorSpeed_Y += diff_Y > 0 ? 1 : -1;
-    analogWrite(motor24_enA, motorSpeed_X);
-  }
-  
-  //maps displacement to direction
-  if (x_displacement < 0) { //change direction
-    //brake for n milliseconds
-    brake();
-    delay(1000); //CAUTION: need at least 500 ms
-    motorDir_X = !motorDir_X;
+  //determines directions of motors
+  x_direction = (x_displacement > 0) ? 1 : 0; //1: EAST(COUNTERCLOCKWISE), 0: WEST(CLOCKWISE)
+  y_direction = (y_displacement > 0) ? 1 : 0; //1: NORTH(COUNTERCLOCKWISE), 0: SOUTH(CLOCKWISE)
+
+  //if this direction is different from last and while x_speed is still positive,
+  //decrements speed to 0
+  while ((x_direction != last_x_dir) && x_speed >= 1) {
+    Serial.println("change dir");
+    x_speed -= 10;
+    if (x_speed <= 0) { x_speed = 0; }
+    delay(DELAY);
+    analogWrite(motor13_enA, x_speed);
   } 
-  if (y_displacement >= 0) {
-    //brake for n milliseconds
-    brake();
-    delay(1000);
-    motorDir_Y = !motorDir_Y;
+  if (x_speed != x_speed_next) {
+    x_speed += (x_speed_next - x_speed) > 0 ? INCR : -1*INCR;
+    analogWrite(motor13_enA, x_speed);
+  }
+
+  //if this direction is different from last and while y_speed is still positive,
+  //decrements speed to 0
+  while ((y_direction != last_y_dir) && y_speed >= 1) {
+    y_speed -= 10;
+    if (y_speed <= 0) { y_speed = 0; }
+    delay(DELAY);
+    analogWrite(motor24_enA, y_speed);
   } 
-  digitalWrite(motor13_in1, motorDir_X);
-  digitalWrite(motor13_in2, !motorDir_X);
-  digitalWrite(motor24_in1, motorDir_Y);
-  digitalWrite(motor24_in2, !motorDir_Y);
-}
-void brake()
-{
-  digitalWrite(motor13_in1, LOW);
-  digitalWrite(motor13_in2, LOW);
-  digitalWrite(motor24_in1, LOW);
-  digitalWrite(motor24_in2, LOW);
+  if (y_speed != y_speed_next) {
+    y_speed += (y_speed_next - y_speed) > 0 ? INCR : -1*INCR;
+    analogWrite(motor24_enA, y_speed);
+  }
+
+  //write x direction
+  if (x_direction) { //if EAST
+    Serial.println("GO EAST");
+    digitalWrite(motor13_in1, HIGH);
+    digitalWrite(motor13_in2, LOW);
+  } else {
+    Serial.println("GO WEST");
+    digitalWrite(motor13_in1, LOW);
+    digitalWrite(motor13_in2, HIGH);
+  }
+
+  //write y direction
+  if (y_direction) { //if NORTH
+    digitalWrite(motor24_in1, HIGH);
+    digitalWrite(motor24_in2, LOW);
+  } else {
+    digitalWrite(motor24_in1, LOW);
+    digitalWrite(motor24_in2, HIGH);
+  }
+  Serial.println(x_speed);
+  last_x_dir = x_direction;
+  last_y_dir = y_direction;
 }
