@@ -12,6 +12,7 @@
 
 /*macros*/
 #define MAX_PWM 204 //(rated_volt=12V / max_volt=15V)*(max_analog_val=255) = 12/15*255 = 204
+#define DEBUG 0
 
 /*constants*/
 const int XY_MIN = 0;
@@ -56,7 +57,6 @@ void writeSpeeds(int x_val, int y_val, bool debug)
   //if this direction is different from last and while x_speed is still positive,
   //decrements speed to 0
   while ((x_direction != last_x_dir) && x_speed >= 1) {
-    Serial.println("change dir");
     x_speed -= 10;
     if (x_speed <= 0) { x_speed = 0; }
     delay(DELAY);
@@ -82,11 +82,9 @@ void writeSpeeds(int x_val, int y_val, bool debug)
 
   //write x direction
   if (x_direction) { //if EAST
-    Serial.println("GO EAST");
     digitalWrite(motor13_in1, HIGH);
     digitalWrite(motor13_in2, LOW);
   } else {
-    Serial.println("GO WEST");
     digitalWrite(motor13_in1, LOW);
     digitalWrite(motor13_in2, HIGH);
   }
@@ -99,7 +97,6 @@ void writeSpeeds(int x_val, int y_val, bool debug)
     digitalWrite(motor24_in1, LOW);
     digitalWrite(motor24_in2, HIGH);
   }
-  Serial.println(x_speed);
   last_x_dir = x_direction;
   last_y_dir = y_direction;
 }
