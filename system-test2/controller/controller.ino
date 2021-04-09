@@ -11,6 +11,8 @@
 //uint8_t last_x_dir = 1;
 //uint8_t last_y_dir = 1;
 
+const int DELAY = 25;
+
 #include <SoftwareSerial.h>
 SoftwareSerial hc05(3, 4); // RX | TX
 // Connect the HC-05 TX to Arduino pin 3 RX. 
@@ -46,7 +48,7 @@ void loop() {
 //  Serial.println(y_val);
 //  Serial.println(z_val);
 //  Serial.println();
-  delay(1000);
+  delay(DELAY);
 //  /* sending values to uno */
 //  Bt.write(); //versus BT.print()
 //  delay(50); //arbitrary delay, need to adjust later
