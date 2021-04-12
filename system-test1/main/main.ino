@@ -1,8 +1,6 @@
 #include <SoftwareSerial.h>
 SoftwareSerial hc06(2, 3); // RX | TX
-
-
-
+#define DELAY 100
 
 void setup() {
   /*bluetooth initialization*/
@@ -27,9 +25,10 @@ void loop() {
     y_dir = hc06.read();
   }
   Serial.println(x_speed);
-  Serial.println(x_dir);
+//  Serial.println(x_dir);
   Serial.println(y_speed);
-  Serial.println(y_dir);
+//  Serial.println(y_dir);
+  Serial.println();
   
   //map x_val, y_val to pwm output
 //  writeSpeeds(x_val, 1023-y_val, true); //invert y_axis to make forward >512, backward <512
