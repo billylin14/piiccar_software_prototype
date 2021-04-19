@@ -1,7 +1,7 @@
 #define VRx A6 //analog pin A1 for x coordinate
 #define VRy A7 //analog pin A0 for y coordinate
 #define VRsw 2 //digital pin D2 for z input (high/low) 
-#define DELAY 10
+#define DELAY 100
 
 //#define bt_rx 0
 //#define bt_tx 1
