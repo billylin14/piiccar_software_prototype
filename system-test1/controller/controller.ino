@@ -47,14 +47,20 @@ void loop() {
   int raw_z = digitalRead(VRsw);
   
   /*precompute speeds here*/
-  getSpeed(raw_x, &x_motor);
-  getSpeed(raw_y, &y_motor);
-  hc05.write(x_motor.spd);
-  hc05.write(x_motor.dir);
-  hc05.write(y_motor.spd);
-  hc05.write(y_motor.dir);
-  Serial.println(x_motor.spd);
-  Serial.println(y_motor.spd);
+//  getSpeed(raw_x, &x_motor);
+//  getSpeed(raw_y, &y_motor);
+  hc05.write(raw_x);
+  hc05.write(raw_y);
+  Serial.print("raw_x = ");
+  Serial.println(raw_x);
+  Serial.print("raw_y = ");
+  Serial.println(raw_y);
+//  hc05.write(x_motor.spd);
+//  hc05.write(x_motor.dir);
+//  hc05.write(y_motor.spd);
+//  hc05.write(y_motor.dir);
+//  Serial.println(x_motor.spd);
+//  Serial.println(y_motor.spd);
 //  if (x_motor.dir == 1){
 //    Serial.println("GO EAST");
 //  } else {
