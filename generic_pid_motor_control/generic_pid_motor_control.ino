@@ -21,9 +21,6 @@ void loop()
 //  readController();   //get joystick values
   readSensor();       //read sensor values - DONE
   calculateAngle();   //calculate angles from acc and gyro - DONE
-  Serial.print("Angle_X\t"); Serial.println(angleX);
-  Serial.print("Angle_Y\t"); Serial.println(angleY);
-  Serial.println();
   /*put these functions in pid function*/
 //  setDesiredAngle();  //update setpointX/setpointY
 //  InputX = angleX;
