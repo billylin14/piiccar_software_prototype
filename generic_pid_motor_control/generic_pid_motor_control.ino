@@ -1,10 +1,15 @@
 extern float angleX;
 extern float angleY;
+
+extern int x = 0;
+extern int y = 0;
+
 void setup() {
   // put your setup code here, to run once:
   setupSensor();
 //  motor_init();
 //  PID_init();
+  bluetooth_init();
 
   /* debug console */
   Serial.begin(9600);
@@ -18,7 +23,7 @@ void setup() {
 
 void loop() 
 {
-//  readController();   //get joystick values
+  readController();   //get joystick values
   readSensor();       //read sensor values - DONE
   calculateAngle();   //calculate angles from acc and gyro - DONE
   /*put these functions in pid function*/
