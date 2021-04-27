@@ -6,6 +6,7 @@
 // macros
 #define dt 0.01
 
+// define a struct datatype for the sensors that stores information about x, y, z
 typedef struct Sensor //object type
 {
   float x;
@@ -14,16 +15,17 @@ typedef struct Sensor //object type
 } Sensor; //object name
 
 /* global variables */
-float angleX = 0;
-float angleY = 0;
-Sensor acceleration;
-Sensor gyro;
-Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();
+float angleX = 0; //sensor output angle in X direction
+float angleY = 0; //sensor output angle in Y direction
+Sensor acceleration; //sensor data x,y,z for the acceleration
+Sensor gyro; //sensor data x,y,z for the gyroscope
+Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1(); //instance of the lsm9ds1 sensor 
 
 
+// Setup the sensor configurations
 void setupSensor()
 {
-  /*check if the wiring of the sensor is correct*/
+  //check if the wiring of the sensor is correct
   if (!lsm.begin())
   {
     Serial.println("Oops ... unable to initialize the LSM9DS1. Check your wiring!");
@@ -48,6 +50,7 @@ void setupSensor()
   //lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_2000DPS);
 }
 
+// Read sensor values and store in the sensor sturcts for easy access
 void readSensor() 
 {
   /* ask it to read in the data */
@@ -67,6 +70,7 @@ void readSensor()
   gyro.z = g.gyro.z;
 }
 
+// Calculate angles in X and Y directions using the translational speed and angular speed
 void calculateAngle() 
 {
   float x = acceleration.x;
