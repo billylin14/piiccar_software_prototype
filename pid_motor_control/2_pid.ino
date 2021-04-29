@@ -5,9 +5,11 @@ extern float angleX; //sensor output angle in X direction
 extern float angleY; //sensor output angle in Y direction
 
 //do our own experiment to set the parameters!
-int Kp = 0;  //proportion parameter in PID
-int Ki = 0;  //integral parameter in PID
-int Kd = 0;  //derivative parameter in PID
+//Kp > Kd > Ki
+// James Bruton's values: Kp is 12, Ki is 0.45, and Kd is 0.35
+int Kp = 0;  //proportion parameter in PID //Kp is the current error 
+int Ki = 0;  //integral parameter in PID //Ki should be either small or zero //Ki is the sum of the errors for each sample
+int Kd = 1000;  //derivative parameter in PID //Kd measures the change of error in each sample
 
 double SetpointY, InputY, OutputY;    // PID variables (Setpoint = desired, Input = sensor, Output = motor)
 double SetpointX, InputX, OutputX;    // PID variables
@@ -33,8 +35,12 @@ void PID_init() {
 void PID_update() {
   InputX = angleX;
   InputY = angleY;
-  SetpointX = 0; //change this later
-  SetpointY = 0; //change this later
+  SetpointX = currentDesiredAngleX; //change this later
+  SetpointY = currentDesiredAngleY; //change this later
   PIDX.Compute();
   PIDY.Compute();
+  Serial.print("OutputX: ");
+  Serial.println(OutputX);
+  Serial.print("OutputY: ");
+  Serial.println(OutputY);
 }
