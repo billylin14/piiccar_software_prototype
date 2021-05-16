@@ -18,6 +18,7 @@ void setup() {
 // Main function flow of the robot
 void loop() 
 {
+<<<<<<< HEAD
   readController();   //get joystick values
   getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
   readSensor();       //read sensor values - DONE
@@ -25,4 +26,13 @@ void loop()
   PID_update();       //use the calculated results to update PID variables
 //  computeSpeed();     //use outputX,Y to map to speed & direction
   delay(100);
+=======
+//  readController();   //get joystick values
+//  getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
+//  readSensor();       //read sensor values - DONE
+//  calculateAngle();   //calculate angles from acc and gyro - DONE
+//  PID_update();       //use the calculated results to update PID variables
+  computeSpeed();     //use outputX,Y to map to speed & direction
+  delay(10);
+>>>>>>> 4661dd9a78cae1156ea61ca666a8c777bdb36ae1
 }
