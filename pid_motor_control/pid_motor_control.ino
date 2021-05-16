@@ -8,7 +8,7 @@ extern float angleY; //sensor output angle in Y direction
 void setup() {
   setupSensor();
 //  motor_init();
-//  PID_init();
+  PID_init();
   bluetooth_init();
 
   /* debug console */
@@ -23,6 +23,6 @@ void loop()
   readSensor();       //read sensor values - DONE
   calculateAngle();   //calculate angles from acc and gyro - DONE
   PID_update();       //use the calculated results to update PID variables
-  computeSpeed();     //use outputX,Y to map to speed & direction
-  delay(10);
+//  computeSpeed();     //use outputX,Y to map to speed & direction
+  delay(100);
 }
