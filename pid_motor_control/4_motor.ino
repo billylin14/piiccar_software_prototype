@@ -10,6 +10,13 @@
 #define motor24_in2  13  //            ||
                          //          {}{3}{}
 
+
+#define MOTOR_TEST 1
+//simulate possible output values to feed to the motors
+#if MOTOR_TEST
+  int i = 0;
+  int output[] = { 10, -10, 5, 20, -20, 50 };
+#endif
 // Configure the pin connections of the motors
 void motor_init() 
 {

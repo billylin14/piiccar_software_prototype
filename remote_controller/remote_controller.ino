@@ -31,10 +31,6 @@ void loop() {
   int y = map(raw_y, 0, 1023, 0, 255);
   hc05.write(x);
   hc05.write(y);
-  Serial.print("raw_x = ");
-  Serial.println(raw_x);
-  Serial.print("raw_x = ");
-  Serial.println(raw_x);
   Serial.print("x = ");
   Serial.println(x);
   Serial.print("y = ");

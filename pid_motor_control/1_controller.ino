@@ -3,10 +3,10 @@ SoftwareSerial hc06(2, 3); // RX | TX (of the hc06)
 //#define DELAY 100
 int x = 0; //joystick X
 int y = 0; //joystick Y
+
 double setpointX;
 double setpointY;
 const int MAXBIAS = 20;
-
 
 // Initialize bluetooth connection
 void bluetooth_init(){
@@ -18,16 +18,13 @@ void bluetooth_init(){
 void readController() {
   while (hc06.available())
   {
-      x = (int)hc06.read();
-      y = (int)hc06.read();
+      x = hc06.read();
+      y = hc06.read();
   }
 //  Serial.print("x=");
 //  Serial.println(x);
 //  Serial.print("y=");
 //  Serial.println(y);
-
-  
-  
 }
 
 int currentDesiredAngleX = 0;
@@ -57,7 +54,3 @@ void getDesireAngle() {
 //  Serial.print("desired angle x: ");
 //  Serial.println(desiredAngleX);
 }
-  
-  
-
-  
