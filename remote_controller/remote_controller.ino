@@ -27,14 +27,10 @@ void loop() {
 //  int raw_z = digitalRead(VRsw);
   
   /*precompute speeds here*/
-  uint8_t x = map(raw_x, 0, 1023, 0, 255);
-  uint8_t y = map(raw_y, 0, 1023, 0, 255);
+  int x = map(raw_x, 0, 1023, 0, 255);
+  int y = map(raw_y, 0, 1023, 0, 255);
   hc05.write(x);
   hc05.write(y);
-  Serial.print("raw_x = ");
-  Serial.println(raw_x);
-  Serial.print("raw_x = ");
-  Serial.println(raw_x);
   Serial.print("x = ");
   Serial.println(x);
   Serial.print("y = ");

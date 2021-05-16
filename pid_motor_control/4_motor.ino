@@ -10,6 +10,7 @@
 #define motor24_in2  13  //            ||
                          //          {}{3}{}
 
+<<<<<<< HEAD
 #define MOTOR_TEST 1
 //simulate possible output values to feed to the motors
 #if MOTOR_TEST
@@ -44,12 +45,15 @@ void computeSpeed()
     int speedY = abs(OutputY);
     int dirX = signbit(OutputX); //1 if >=0, 0 if <0
     int dirY = signbit(OutputY);
-   #endif
+  #endif
+    int speedX = abs(OutputX); //abs(-255~255)
+    int speedY = abs(OutputY);
+    int dirX = signbit(OutputX); //1 if >=0, 0 if <0
+    int dirY = signbit(OutputY);
   /* motorX */
   //TODO: refer to system-test1 to write to the motors with analogWrite and digitalWrite
   //Also, think about using while loop to increment or if statement to slowly increase the speed.
   //but maybe that's not necessary.
-
   analogWrite(motor13_enA, speedX);
   digitalWrite(motor13_enA, dirX);
   digitalWrite(motor13_enA, 1-dirX);

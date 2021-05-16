@@ -6,10 +6,10 @@ extern float angleY; //sensor output angle in Y direction
 
 // Main setup of the robot
 void setup() {
-//  setupSensor();
-  motor_init();
-//  PID_init();
-//  bluetooth_init();
+  setupSensor();
+//  motor_init();
+  PID_init();
+  bluetooth_init();
 
   /* debug console */
   Serial.begin(9600);
@@ -18,11 +18,11 @@ void setup() {
 // Main function flow of the robot
 void loop() 
 {
-//  readController();   //get joystick values
-//  getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
-//  readSensor();       //read sensor values - DONE
-//  calculateAngle();   //calculate angles from acc and gyro - DONE
-//  PID_update();       //use the calculated results to update PID variables
-  computeSpeed();     //use outputX,Y to map to speed & direction
-  delay(10);
+  readController();   //get joystick values
+  getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
+  readSensor();       //read sensor values - DONE
+  calculateAngle();   //calculate angles from acc and gyro - DONE
+  PID_update();       //use the calculated results to update PID variables
+//  computeSpeed();     //use outputX,Y to map to speed & direction
+  delay(100);
 }
