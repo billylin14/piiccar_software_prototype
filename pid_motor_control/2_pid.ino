@@ -1,5 +1,5 @@
 #include <PID_v2.h> //pid control library
-#define PID_SAMPLE_TIME 100 //ms
+#define PID_SAMPLE_TIME 10 //ms
 
 extern float angleX; //sensor output angle in X direction
 extern float angleY; //sensor output angle in Y direction
@@ -7,9 +7,9 @@ extern float angleY; //sensor output angle in Y direction
 //do our own experiment to set the parameters!
 //Kp > Kd > Ki
 // James Bruton's values: Kp is 12, Ki is 0.45, and Kd is 0.35
-int Kp = 0;  //proportion parameter in PID //Kp is the current error 
+int Kp = 30;  //proportion parameter in PID //Kp is the current error 
 int Ki = 0;  //integral parameter in PID //Ki should be either small or zero //Ki is the sum of the errors for each sample
-int Kd = 1000;  //derivative parameter in PID //Kd measures the change of error in each sample
+int Kd = 0;  //derivative parameter in PID //Kd measures the change of error in each sample
 
 double SetpointY, InputY, OutputY;    // PID variables (Setpoint = desired, Input = sensor, Output = motor)
 double SetpointX, InputX, OutputX;    // PID variables
@@ -20,9 +20,9 @@ PID PIDX(&InputX, &OutputX, &SetpointX, Kp, Ki, Kd, DIRECT);    // X Axis PID ob
 // Setup the PID objects
 void PID_init() {
   PIDY.SetMode(AUTOMATIC); //turn on (Automatic) / off (Manual)
-  PIDY.SetOutputLimits(-255, 255);    // limits for PID loops (0~255 range for motor PWM, +-255 for two directions)
+  PIDY.SetOutputLimits(-204, 204);    // limits for PID loops (0~255 range for motor PWM, +-255 for two directions)
   PIDX.SetMode(AUTOMATIC);
-  PIDX.SetOutputLimits(-255, 255);
+  PIDX.SetOutputLimits(-204, 204);
   PIDY.SetSampleTime(PID_SAMPLE_TIME); 
   PIDX.SetSampleTime(PID_SAMPLE_TIME);
 
@@ -33,14 +33,15 @@ void PID_init() {
 
 // Update the PID variables and compute the output
 void PID_update() {
-  InputX = angleX;
-  InputY = angleY;
-  SetpointX = currentDesiredAngleX; //change this later
-  SetpointY = currentDesiredAngleY; //change this later
+  InputX = angleY;
+  InputY = angleX;
+  SetpointX = 0;//currentDesiredAngleX; //change this later
+  SetpointY = 0;//currentDesiredAngleY; //change this later
   PIDX.Compute();
   PIDY.Compute();
-  Serial.print("OutputX: ");
-  Serial.println(OutputX);
-  Serial.print("OutputY: ");
-  Serial.println(OutputY);
+//  Serial.print("OutputX: ");
+//  Serial.println(OutputX);
+////  Serial.print("OutputY: ");
+//  Serial.println(OutputY);
+//  Serial.println();
 }

@@ -76,14 +76,26 @@ void calculateAngle()
   float x = acceleration.x;
   float y = acceleration.y;
   float z = acceleration.z;
-  double pitchAccel = atan2(x, sqrt(y * y) + (z * z));
-  double rollAccel = atan2(y, sqrt(x * x) + (z * z));
+  double rollAccel = atan2(x, sqrt(y * y) + (z * z));
+  double pitchAccel = atan2(y, sqrt(x * x) + (z * z));
   pitchAccel *= 180.0 / PI;
   rollAccel *= 180.0 / PI;
-  
-  pitchAccel = pitchAccel +0.08;    // zero out pitch and roll based on IMU mounting
-  rollAccel = rollAccel -0.3;
+  pitchAccel = pitchAccel +0.2;    // zero out pitch and roll based on IMU mounting
+  rollAccel = rollAccel +0.1;
+  float gyro_x = gyro.x;
+  float gyro_y = gyro.y - 0.09;
+//  Serial.println(gyro_x);
+//  Serial.println(gyro_y);
+//  Serial.println();
 
-  angleX = (0.98)*(angleX + gyro.x * dt) + (0.02)*pitchAccel;
-  angleY = (0.98)*(angleY + gyro.y * dt) + (0.02)*rollAccel;
+//  Serial.print("pitch Accel");
+//  Serial.println(pitchAccel);
+//  Serial.print("roll Accel");
+//  Serial.println(rollAccel);
+  
+  angleX = (0.95)*(angleX + gyro_x * dt) + (0.05)*pitchAccel;
+  angleY = (0.95)*(angleY + gyro_y * dt) + (0.05)*rollAccel;
+  
+  Serial.println(angleX);
+  Serial.println(angleY);
 }
