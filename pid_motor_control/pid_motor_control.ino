@@ -25,7 +25,7 @@ void loop()
   calculateAngle();   //calculate angles from acc and gyro - DONE
   PID_update();       //use the calculated results to update PID variables
   computeSpeed();     //use outputX,Y to map to speed & direction
-  delay(10);
+  delay(1);
 
 
 }
