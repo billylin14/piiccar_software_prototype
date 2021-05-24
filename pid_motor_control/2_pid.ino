@@ -1,5 +1,5 @@
 #include <PID_v2.h> //pid control library
-#define PID_SAMPLE_TIME 1 //ms
+#define PID_SAMPLE_TIME 2 //ms
 
 extern float angleX; //sensor output angle in X direction
 extern float angleY; //sensor output angle in Y direction
@@ -7,9 +7,9 @@ extern float angleY; //sensor output angle in Y direction
 //do our own experiment to set the parameters!
 //Kp > Kd > Ki
 // James Bruton's values: Kp is 12, Ki is 0.45, and Kd is 0.35
-int Kp = 8;  //proportion parameter in PID //Kp is the current error 
-int Ki = 0;  //integral parameter in PID //Ki should be either small or zero //Ki is the sum of the errors for each sample
-int Kd = 0.5;  //derivative parameter in PID //Kd measures the change of error in each sample
+double Kp = 8.5;  //proportion parameter in PID //Kp is the current error 
+double Ki = 0.5;  //integral parameter in PID //Ki should be either small or zero //Ki is the sum of the errors for each sample
+double Kd = 0.1;  //derivative parameter in PID //Kd measures the change of error in each sample
 
 double SetpointY, InputY, OutputY;    // PID variables (Setpoint = desired, Input = sensor, Output = motor)
 double SetpointX, InputX, OutputX;    // PID variables

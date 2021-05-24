@@ -4,7 +4,7 @@
 #include <Adafruit_Sensor.h>  // not used in this demo but required!
 
 // macros
-#define dt 0.001
+#define dt 0.002
 
 // define a struct datatype for the sensors that stores information about x, y, z
 typedef struct Sensor //object type
