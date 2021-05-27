@@ -1,15 +1,12 @@
 extern float angleX; //sensor output angle in X direction
 extern float angleY; //sensor output angle in Y direction
 
-//extern int x = 0; //joystick X
-//extern int y = 0; //joystick Y
-
 // Main setup of the robot
 void setup() {
   setupSensor();
   motor_init();
   PID_init();
-  bluetooth_init();
+  //bluetooth_init(); //bluetooth module not used in 2nd prototype
 
   /* debug console */
   Serial.begin(9600);
@@ -19,7 +16,7 @@ void setup() {
 void loop() 
 {
 
-//  readController();   //get joystick values
+//  readController();   //get joystick values, not used in 2nd prototype
   getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
   readSensor();       //read sensor values - DONE
   calculateAngle();   //calculate angles from acc and gyro - DONE
