@@ -22,7 +22,7 @@ void setup() {
 void loop() 
 {
 //  readController();   //get joystick values, not used in 2nd prototype
-  getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y)
+//  getDesireAngle();   //map joystick values to desired angle (for SetpointX/Y), not used in 2nd prototype
   readSensor();       //read sensor values - DONE
   calculateAngle();   //calculate angles from acc and gyro - DONE
   PID_update();       //use the calculated results to update PID variables
