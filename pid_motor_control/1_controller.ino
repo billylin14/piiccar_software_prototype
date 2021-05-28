@@ -1,6 +1,13 @@
+/* 
+ *  HC-06 Bluetooth receiver code.
+ *  
+ *  ECE 498 ENGINE Capstone-Spring 2021
+ *  Authors: Billy Lin, Ariel Chang, Junyi Wu
+ *  Last update: May-27-2021
+ */
+ 
 #include <SoftwareSerial.h>
 SoftwareSerial hc06(2, 3); // RX | TX (of the hc06)
-//#define DELAY 100
 int x = 0; //joystick X
 int y = 0; //joystick Y
 
@@ -21,10 +28,6 @@ void readController() {
       x = hc06.read();
       y = hc06.read();
   }
-//  Serial.print("x=");
-//  Serial.println(x);
-//  Serial.print("y=");
-//  Serial.println(y);
 }
 
 int currentDesiredAngleX = 0;
@@ -49,8 +52,4 @@ void getDesireAngle() {
   else if (currentDesiredAngleY > desiredAngleY) {
     currentDesiredAngleY --;
   }
-//  Serial.print("current desired angle x: ");
-//  Serial.println(currentDesiredAngleX);
-//  Serial.print("desired angle x: ");
-//  Serial.println(desiredAngleX);
 }

@@ -1,3 +1,11 @@
+/* 
+ *  Motor driver subprogram of the ball-balancing robot (prototype 2)
+ *  
+ *  ECE 498 ENGINE Capstone-Spring 2021
+ *  Authors: Billy Lin, Ariel Chang, Junyi Wu
+ *  Last update: May-27-2021
+ */
+
 /* Pin definitions 
  * Notice:
  * motor 1 and 3, 2 and 4 share the same signals
@@ -52,17 +60,7 @@ void computeSpeed()
   } else {
     dirY = 1;
   }
-  // int dirX = 1-signbit(OutputX); //1 if >=0, 0 if <0
-  // int dirY = signbit(OutputY);
-//  Serial.println(speedX);
-//  Serial.println(speedY);
-//  Serial.println(dirX);
-//  Serial.println(dirY);
-//  Serial.println();
   /* motorX */
-  //TODO: refer to system-test1 to write to the motors with analogWrite and digitalWrite
-  //Also, think about using while loop to increment or if statement to slowly increase the speed.
-  //but maybe that's not necessary.
   analogWrite(motor24_enA, speedX);
   digitalWrite(motor24_in1, dirX);
   digitalWrite(motor24_in2, 1-dirX);
@@ -70,15 +68,4 @@ void computeSpeed()
   analogWrite(motor13_enA, speedY);
   digitalWrite(motor13_in1, dirY);
   digitalWrite(motor13_in2, 1-dirY);
-  
-
-  // for testing the motor friction
-  // 35 for in1 is 1
-//  analogWrite(motor24_enA, 0);
-//  digitalWrite(motor24_in1, 0);
-//  digitalWrite(motor24_in2, 1);
-//  
-//  analogWrite(motor13_enA, C);
-//  digitalWrite(motor13_in1, 0);
-//  digitalWrite(motor13_in2, 1);
 }

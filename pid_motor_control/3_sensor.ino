@@ -1,4 +1,13 @@
-/* includes */
+/* 
+ *  Read the Adafruit LSM9DS1 sensor and calculate the angle from the sensor data.
+ *  Calculation of angle is partially adopted from James Bruton's BB8 robot 
+ *  (https://github.com/XRobots/3D_BB8_Public/blob/master/BB813/BB813.ino)
+ *  
+ *  ECE 498 ENGINE Capstone-Spring 2021
+ *  Authors: Billy Lin, Ariel Chang
+ *  Last update: May-27-2021
+ */
+ 
 #include <Wire.h> //i2c library
 #include <Adafruit_LSM9DS1.h>
 #include <Adafruit_Sensor.h>  // not used in this demo but required!
@@ -28,26 +37,13 @@ void setupSensor()
   //check if the wiring of the sensor is correct
   if (!lsm.begin())
   {
-    Serial.println("Oops ... unable to initialize the LSM9DS1. Check your wiring!");
+    Serial.println("unable to initialize the LSM9DS1.");
     while (1);
   }
   
-  // 1.) Set the accelerometer range
-  lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_2G); //maximum: 10
-  //lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_4G); //doesn't work somehow
-  //lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_8G);
-  //lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_16G); //maximum: 120
-  
-  // 2.) Set the magnetometer sensitivity
-  lsm.setupMag(lsm.LSM9DS1_MAGGAIN_4GAUSS);
-  //lsm.setupMag(lsm.LSM9DS1_MAGGAIN_8GAUSS);
-  //lsm.setupMag(lsm.LSM9DS1_MAGGAIN_12GAUSS);
-  //lsm.setupMag(lsm.LSM9DS1_MAGGAIN_16GAUSS);
-
-  // 3.) Setup the gyroscope
-  lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_245DPS);
-  //lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_500DPS);
-  //lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_2000DPS);
+  lsm.setupAccel(lsm.LSM9DS1_ACCELRANGE_2G); //range of accelerometer
+  lsm.setupMag(lsm.LSM9DS1_MAGGAIN_4GAUSS); //sensitivity of magnetometer
+  lsm.setupGyro(lsm.LSM9DS1_GYROSCALE_245DPS); //range of gyroscope
 }
 
 // Read sensor values and store in the sensor sturcts for easy access
@@ -84,18 +80,7 @@ void calculateAngle()
   rollAccel = rollAccel +0.1;
   float gyro_x = gyro.x;
   float gyro_y = gyro.y - 0.09;
-//  Serial.println(gyro_x);
-//  Serial.println(gyro_y);
-//  Serial.println();
-
-//  Serial.print("pitch Accel");
-//  Serial.println(pitchAccel);
-//  Serial.print("roll Accel");
-//  Serial.println(rollAccel);
   
   angleX = (0.95)*(angleX + gyro_x * dt) + (0.05)*pitchAccel;
   angleY = (0.95)*(angleY + gyro_y * dt) + (0.05)*rollAccel;
-  
-  Serial.println(angleX);
-  Serial.println(angleY);
 }

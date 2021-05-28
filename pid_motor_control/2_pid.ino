@@ -1,12 +1,17 @@
+/* 
+ *  PID controller of the ball-balancing robot
+ *  
+ *  ECE 498 ENGINE Capstone-Spring 2021
+ *  Authors: Billy Lin, Ariel Chang
+ *  Last update: May-27-2021
+ */
+ 
 #include <PID_v2.h> //pid control library
 #define PID_SAMPLE_TIME 2 //ms
 
 extern float angleX; //sensor output angle in X direction
 extern float angleY; //sensor output angle in Y direction
 
-//do our own experiment to set the parameters!
-//Kp > Kd > Ki
-// James Bruton's values: Kp is 12, Ki is 0.45, and Kd is 0.35
 double Kp = 8.5;  //proportion parameter in PID //Kp is the current error 
 double Ki = 0.5;  //integral parameter in PID //Ki should be either small or zero //Ki is the sum of the errors for each sample
 double Kd = 0.1;  //derivative parameter in PID //Kd measures the change of error in each sample
@@ -35,13 +40,8 @@ void PID_init() {
 void PID_update() {
   InputX = angleY;
   InputY = angleX;
-  SetpointX = 0;//currentDesiredAngleX; //change this later
-  SetpointY = 0;//currentDesiredAngleY; //change this later
+  SetpointX = 0;//currentDesiredAngleX; 
+  SetpointY = 0;//currentDesiredAngleY;
   PIDX.Compute();
   PIDY.Compute();
-//  Serial.print("OutputX: ");
-//  Serial.println(OutputX);
-////  Serial.print("OutputY: ");
-//  Serial.println(OutputY);
-//  Serial.println();
 }
